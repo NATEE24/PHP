@@ -21,18 +21,19 @@
     <div style="color: blue;">
         <?php
         echo "Hello Thailand<br>";
-        print "<span style='color: pink;'>Kim</span>";
+        print "<span style='color: red;'>Tee</span>";
         ?>
     </div>
     <hr>
-    <h1 style="color: brown;">MY MENU</h1>
+    <h1 style="color: green;">MY MENU</h1>
     <ul>
         <li><a href="W01_01_introPHP.php">Intro PHP</a></li>
         <li><a href="W02_01_oddEvenNumber.php">oddEvenNumber</a></li>
         <li><a href="W02_02_Grade.php">Grade</a></li>
         <li><a href="HW02.php">PHP Calculate Money</a></li>
         <li><a href="W06_01_LoopProducts.php">Show Products(Fix data)</a></li>
-        <li><a href="">Connect Database</a></li>
+        <li><a href="W07_01_connectDB.php">Connect Database</a></li>
+        <li><a href="W07_02_fetchData.php">Fetch data</a></li>
         <li><a href="">Show Products (Form Database)</a></li>
 
     </ul>
