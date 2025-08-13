@@ -34,7 +34,7 @@
         <li><a href="W06_01_LoopProducts.php">Show Products(Fix data)</a></li>
         <li><a href="W07_01_connectDB.php">Connect Database</a></li>
         <li><a href="W07_02_fetchData.php">Fetch data</a></li>
-        <li><a href="">Show Products (Form Database)</a></li>
+        <li><a href="W08_01_ProdectFromData.php">Show Products (Form Database)</a></li>
 
     </ul>
 
