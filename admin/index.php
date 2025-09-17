@@ -216,7 +216,7 @@ $username = htmlspecialchars($_SESSION['username'] ?? 'ผู้ดูแลร�
               </div>
             </div>
             <p class="mb-3 text-secondary">เพิ่ม/แก้ไขหมวดหมู่เพื่อให้ค้นหาง่ายขึ้น</p>
-            <a href="categories.php" class="btn btn-pink w-100">
+            <a href="category.php" class="btn btn-pink w-100">
               ไปที่หมวดหมู่ <i class="bi bi-arrow-right-short ms-1"></i>
             </a>
           </div>
