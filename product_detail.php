@@ -3,7 +3,8 @@ session_start();
 require_once 'config.php';
 
 if (!isset($_GET['id'])) {
-    header('Location: indexmember.php'); exit();
+  header('Location: indexmember.php');
+  exit();
 }
 $isLoggedIn = isset($_SESSION['user_id']);
 
@@ -15,9 +16,15 @@ $stmt = $conn->prepare("SELECT p.*, c.category_name
     WHERE p.product_id = ?");
 $stmt->execute([$product_id]);
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// เตรียมรูป
+$img = !empty($product['image'])
+  ? 'product_images/' . rawurlencode($product['image'])
+  : 'product_images/no-image.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8">
   <title>รายละเอียดสินค้า</title>
@@ -25,48 +32,83 @@ $product = $stmt->fetch(PDO::FETCH_ASSOC);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    :root{
-      --pink-50:#fff5f9; --pink-100:#ffeef5; --pink-200:#ffd9e8; --pink-300:#ffc2d1;
-      --pink-400:#ff99b8; --pink-500:#f78fb3; --pink-700:#d63384; --rose-500:#e75480;
+    :root {
+      --pink-50: #fff5f9;
+      --pink-100: #ffeef5;
+      --pink-200: #ffd9e8;
+      --pink-300: #ffc2d1;
+      --pink-400: #ff99b8;
+      --pink-500: #f78fb3;
+      --pink-700: #d63384;
+      --rose-500: #e75480;
     }
-    body{
-      min-height:100vh;
+
+    body {
+      min-height: 100vh;
       background:
         radial-gradient(24rem 24rem at 10% 10%, #ffe1ee 0%, transparent 60%),
         radial-gradient(28rem 28rem at 90% 0%, #f3d9ff 0%, transparent 55%),
         radial-gradient(20rem 20rem at 0% 90%, #ffd6e7 0%, transparent 55%),
         linear-gradient(180deg, var(--pink-100), #ffffff 45%, var(--pink-50));
     }
-    .topbar{
+
+    .topbar {
       background: linear-gradient(90deg, #ffb7d5, #f6a6d7 40%, #e6b6ff);
-      box-shadow: 0 8px 30px rgba(214,51,132,.25);
-      border-bottom: 1px solid rgba(255,255,255,.35);
+      box-shadow: 0 8px 30px rgba(214, 51, 132, .25);
+      border-bottom: 1px solid rgba(255, 255, 255, .35);
     }
-    .card-soft{
-      border:0; border-radius: 20px;
-      background: linear-gradient(180deg,#ffffff,#fff7fb);
-      box-shadow: 0 16px 40px rgba(255,153,184,.22);
+
+    .card-soft {
+      border: 0;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff, #fff7fb);
+      box-shadow: 0 16px 40px rgba(255, 153, 184, .22);
     }
-    .badge-soft{
-      background: #fff0f6; color: var(--pink-700); border:1px solid #ffe1ee;
+
+    .badge-soft {
+      background: #fff0f6;
+      color: var(--pink-700);
+      border: 1px solid #ffe1ee;
     }
-    .price-tag{
-      display:inline-flex; align-items:center; gap:.4rem;
-      background: linear-gradient(90deg,var(--pink-500),var(--rose-500));
-      color:#fff; padding:.45rem .75rem; border-radius:999px;
-      box-shadow: 0 10px 24px rgba(247,143,179,.35);
-      font-weight:700;
+
+    .price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: linear-gradient(90deg, var(--pink-500), var(--rose-500));
+      color: #fff;
+      padding: .45rem .75rem;
+      border-radius: 999px;
+      box-shadow: 0 10px 24px rgba(247, 143, 179, .35);
+      font-weight: 700;
     }
-    .btn-pink{
-      background: linear-gradient(90deg,var(--pink-500),var(--rose-500));
-      border:none; color:#fff; box-shadow:0 10px 22px rgba(214,51,132,.32);
+
+    .btn-pink {
+      background: linear-gradient(90deg, var(--pink-500), var(--rose-500));
+      border: none;
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(214, 51, 132, .32);
     }
-    .btn-pink:hover{ filter:brightness(1.05); }
-    .btn-outline-pink{
-      border:1px solid var(--pink-400); color:var(--pink-700); background:#fff;
+
+    .btn-pink:hover {
+      filter: brightness(1.05);
     }
-    .btn-outline-pink:hover{ background:var(--pink-100); border-color:var(--pink-700); color:var(--pink-700); }
-    .qty-input{ max-width: 120px; }
+
+    .btn-outline-pink {
+      border: 1px solid var(--pink-400);
+      color: var(--pink-700);
+      background: #fff;
+    }
+
+    .btn-outline-pink:hover {
+      background: var(--pink-100);
+      border-color: var(--pink-700);
+      color: var(--pink-700);
+    }
+
+    .qty-input {
+      max-width: 120px;
+    }
   </style>
 </head>
 
@@ -82,12 +124,13 @@ $product = $stmt->fetch(PDO::FETCH_ASSOC);
   </nav>
 
   <main class="container py-4 py-md-5">
-    <?php if(!$product): ?>
+    <?php if (!$product): ?>
       <div class="alert alert-warning">ไม่พบสินค้า</div>
       <a href="indexmember.php" class="btn btn-outline-pink mt-2">กลับหน้ารายการ</a>
     <?php else: ?>
       <div class="card card-soft p-3 p-md-4">
         <div class="card-body">
+          <img src="<?= $img ?>">
           <div class="d-flex flex-column flex-md-row gap-4">
             <!-- หากมีฟิลด์รูปภาพใน DB ค่อยเพิ่ม <img> ได้ -->
             <div class="flex-fill">
@@ -99,8 +142,8 @@ $product = $stmt->fetch(PDO::FETCH_ASSOC);
               </div>
 
               <?php
-                $price = isset($product['price']) ? number_format((float)$product['price'], 2) : '0.00';
-                $stock = (int)($product['stock'] ?? 0);
+              $price = isset($product['price']) ? number_format((float) $product['price'], 2) : '0.00';
+              $stock = (int) ($product['stock'] ?? 0);
               ?>
               <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
                 <span class="price-tag">
@@ -122,15 +165,10 @@ $product = $stmt->fetch(PDO::FETCH_ASSOC);
                   <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
                   <div>
                     <label for="quantity" class="form-label mb-1">จำนวน</label>
-                    <input
-                      type="number"
-                      class="form-control qty-input"
-                      name="quantity" id="quantity"
-                      value="1" min="1" max="<?= max($stock,0) ?>"
-                      <?= $stock <= 0 ? 'disabled' : '' ?> required>
+                    <input type="number" class="form-control qty-input" name="quantity" id="quantity" value="1" min="1"
+                      max="<?= max($stock, 0) ?>" <?= $stock <= 0 ? 'disabled' : '' ?> required>
                   </div>
-                  <button type="submit" class="btn btn-pink"
-                          <?= $stock <= 0 ? 'disabled' : '' ?>>
+                  <button type="submit" class="btn btn-pink" <?= $stock <= 0 ? 'disabled' : '' ?>>
                     <i class="bi bi-bag-plus me-1"></i> เพิ่มในตะกร้า
                   </button>
                 </form>
@@ -146,4 +184,5 @@ $product = $stmt->fetch(PDO::FETCH_ASSOC);
     <?php endif; ?>
   </main>
 </body>
+
 </html>
